@@ -20,7 +20,8 @@
 // clang-format off
 
 enum custom_keycodes {
-  MUTE_CAPS = SAFE_RANGE
+  MUTE_CAPS = SAFE_RANGE,
+  MAC_HYPERKEY
 };
 
 
@@ -45,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL,  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_ROPT,  MO(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [MAC_FN] = LAYOUT_ansi_82(
-        _______,  KC_BRID,  KC_BRIU,  KC_NO,    KC_NO,    RM_VALD,  RM_VALU,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,    KC_VOLU,  _______,            _______,
+        _______,  KC_BRID,  KC_BRIU,  MAC_HYPERKEY, KC_NO,    RM_VALD,  RM_VALU,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,    KC_VOLU,  _______,            _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,  _______,            _______,
         RM_TOGG,  RM_NEXT,  RM_VALU,  RM_HUEU,  RM_SATU,  RM_SPDU,  _______,  _______,  _______,  _______,  _______,  _______,    _______,  _______,            _______,
         _______,  RM_PREV,  RM_VALD,  RM_HUED,  RM_SATD,  RM_SPDD,  _______,  _______,  _______,  _______,  _______,  _______,              _______,            _______,
@@ -91,6 +92,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
           tap_code(KC_CAPS);
         }
+      }
+      return false; // Skip default processing
+
+    case MAC_HYPERKEY:
+      if (record->event.pressed) {
+        register_mods(MOD_LGUI | MOD_LSFT | MOD_LALT | MOD_LCTL);
+        tap_code(KC_F);
+        unregister_mods(MOD_LGUI | MOD_LSFT | MOD_LALT | MOD_LCTL);
       }
       return false; // Skip default processing
   }
