@@ -61,3 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,            _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,            _______,
         _______,  GU_TOGG,  _______,                                _______,                                _______,  _______,  _______,  _______,  _______,  _______,  _______),
 };
+
+void keyboard_post_init_user(void) {
+    set_single_persistent_default_layer(MAC_BASE_LAYER);
+}
